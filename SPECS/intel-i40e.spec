@@ -9,7 +9,7 @@
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Version: 2.0.23
-Release: 1
+Release: 1%{dist}
 License: GPL
 #Source: http://hg.uk.xensource.com/git/carbon/trunk-ring0/driver-%{name}.git/snapshot/refs/tags/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Source: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-%{name}/archive?at=%{version}&format=tgz&prefix=driver-%{name}-%{version}#/%{name}-%{version}.tar.gz
