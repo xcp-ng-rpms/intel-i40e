@@ -8,11 +8,16 @@
 
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
-Version: 2.0.23
+Version: 2.7.12
 Release: 1
 License: GPL
 #Source: http://hg.uk.xensource.com/git/carbon/trunk-ring0/driver-%{name}.git/snapshot/refs/tags/%{version}.tar.gz#/%{name}-%{version}.tar.gz
-Source: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-%{name}/archive?at=%{version}&format=tgz&prefix=driver-%{name}-%{version}#/%{name}-%{version}.tar.gz
+
+Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-intel-i40e/archive?at=2.7.12&format=tgz&prefix=driver-intel-i40e-2.7.12#/intel-i40e-2.7.12.tar.gz
+
+
+Provides: gitsha(https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-intel-i40e/archive?at=2.7.12&format=tgz&prefix=driver-intel-i40e-2.7.12#/intel-i40e-2.7.12.tar.gz) = b2bf08c3ef31c0bd26fcf2a53726fbbc050b051e
+
 
 BuildRequires: kernel-devel
 Provides: vendor-driver
@@ -25,7 +30,7 @@ Requires(postun): /usr/sbin/depmod
 version %{kernel_version}.
 
 %prep
-%autosetup -n driver-%{name}-%{version}
+%autosetup -p1 -n driver-%{name}-%{version}
 
 %build
 %{?cov_wrap} %{make_build} -C /lib/modules/%{kernel_version}/build M=$(pwd)/src KSRC=/lib/modules/%{kernel_version}/build modules
@@ -51,6 +56,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 /lib/modules/%{kernel_version}/*/*.ko
 
 %changelog
+* Fri Nov 16 2018 Deli Zhang <deli.zhang@citrix.com> - 2.7.12-1
+- CP-29877: Updating i40e drivers to version 2.7.12
+
 * Wed Jun 28 2017 Simon Rowe <simon.rowe@citrix.com> - 2.0.23-1
 - Updating i40e drivers to version 2.0.23
 
