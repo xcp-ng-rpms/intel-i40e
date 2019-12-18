@@ -6,12 +6,18 @@
 %define module_dir updates
 %endif
 
+## kernel_version will be set during build because then kernel-devel
+## package installs an RPM macro which sets it. This check keeps
+## rpmlint happy.
+%if %undefined kernel_version
+%define kernel_version dummy
+%endif
+
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
 Version: 2.9.21
 Release: 1
 License: GPL
-#Source: http://hg.uk.xensource.com/git/carbon/trunk-ring0/driver-%{name}.git/snapshot/refs/tags/%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
 Source0: https://code.citrite.net/rest/archive/latest/projects/XS/repos/driver-intel-i40e/archive?at=2.9.21&format=tgz&prefix=driver-intel-i40e-2.9.21#/intel-i40e-2.9.21.tar.gz
 
