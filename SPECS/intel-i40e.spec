@@ -1,8 +1,8 @@
-%global package_speccommit bced7835bed6e955ba5ddd504cb089a5e6b25d23
-%global usver 2.9.21
-%global xsver 3
+%global package_speccommit 7f517d046fbb56517934e67f7cefcfafd31ef020
+%global usver 2.22.20
+%global xsver 4
 %global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit 2.9.21
+%global package_srccommit 2.22.20
 %define vendor_name Intel
 %define vendor_label intel
 %define driver_name i40e
@@ -20,16 +20,19 @@
 
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
-Version: 2.9.21
+Version: 2.22.20
 Release: %{?xsrel}%{?dist}
 License: GPL
-Source0: intel-i40e-2.9.21.tar.gz
+Source0: intel-i40e-2.22.20.tar.gz
+Patch0: disable-fw-lldp-by-default.patch
+Patch1: fix-memory-leak-and-other-bugs.patch
 
 BuildRequires: gcc
-BuildRequires: kernel-devel
+BuildRequires: kernel-devel >= 4.19.19-8.0.29
 %{?_cov_buildrequires}
 Provides: vendor-driver
 Requires: kernel-uname-r = %{kernel_version}
+Requires: kernel >= 4.19.19-8.0.29
 Requires(post): /usr/sbin/depmod
 Requires(postun): /usr/sbin/depmod
 
@@ -42,6 +45,9 @@ version %{kernel_version}.
 %{?_cov_prepare}
 
 %build
+cd src
+KSRC=/lib/modules/%{kernel_version}/build OUT=kcompat_generated_defs.h CONFFILE=/lib/modules/%{kernel_version}/build/.config bash kcompat-generator.sh
+cd ..
 %{?_cov_wrap} %{make_build} -C /lib/modules/%{kernel_version}/build M=$(pwd)/src KSRC=/lib/modules/%{kernel_version}/build modules
 
 %install
@@ -69,6 +75,18 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %{?_cov_results_package}
 
 %changelog
+* Mon Aug 07 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-4
+- CP-41018: Use auxiliary module in kernel.
+
+* Tue Jul 03 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-3
+- CP-43724: Re-tag for the build check.
+
+* Tue Jul 03 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-2
+- CP-43724: Build driver disk for i40e driver
+
+* Tue Jun 13 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-1
+- CP-42804: Update i40e driver to version 2.22.20
+
 * Mon Feb 14 2022 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.9.21-3
 - CP-38416: Enable static analysis
 
