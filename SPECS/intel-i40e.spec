@@ -1,6 +1,6 @@
-%global package_speccommit 7f517d046fbb56517934e67f7cefcfafd31ef020
+%global package_speccommit 58ad0cfd8a9547ce0f4051f258eefef3078e2041
 %global usver 2.22.20
-%global xsver 4
+%global xsver 6
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit 2.22.20
 %define vendor_name Intel
@@ -24,6 +24,7 @@ Version: 2.22.20
 Release: %{?xsrel}%{?dist}
 License: GPL
 Source0: intel-i40e-2.22.20.tar.gz
+Source1: 10-disable-fw-lldp.rules
 Patch0: disable-fw-lldp-by-default.patch
 Patch1: fix-memory-leak-and-other-bugs.patch
 
@@ -55,6 +56,9 @@ cd ..
 # mark modules executable so that strip-to-file can strip them
 find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chmod u+x
 
+install -d %{buildroot}%{_sysconfdir}/udev/rules.d
+install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/udev/rules.d/
+
 %{?_cov_install}
 
 %post
@@ -70,10 +74,15 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 
 %files
 /lib/modules/%{kernel_version}/*/*.ko
+%{_sysconfdir}/udev/rules.d/*
 
 %{?_cov_results_package}
 
 %changelog
+* Tue Feb 27 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.22.20-6
+- CA-386057: Enable legacy-rx by default to resolve performance issue
+- Note: 2.22.20-5 is for Yangtze
+
 * Mon Aug 07 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-4
 - CP-41018: Use auxiliary module in kernel.
 
