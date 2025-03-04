@@ -1,0 +1,17 @@
+Fixed build error:
+./kcompat-lib.sh: line 47: /dev/stderr: Permission denied
+./kcompat-lib.sh: line 51: /dev/stderr: Permission denied
+
+diff --git a/src/kcompat-lib.sh b/src/kcompat-lib.sh
+index 280951ac5336..c16bf8da23c4 100644
+--- a/src/kcompat-lib.sh
++++ b/src/kcompat-lib.sh
+@@ -34,7 +34,7 @@ function filter-out-bad-files() {
+ 	if [ $# = 0 ]; then
+ 		die 10 "no files passed, use '-' when reading from pipe (|)"
+ 	fi
+-	local any=0 diagmsgs=/dev/stderr re=$'[\t \n]'
++	local any=0 diagmsgs=2 re=$'[\t \n]'
+ 	[ -n "${QUIET_COMPAT-}" ] && diagmsgs=/dev/null
+ 	for x in "$@"; do
+ 		if [ -e "$x" ]; then

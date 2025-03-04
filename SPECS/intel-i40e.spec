@@ -1,8 +1,8 @@
-%global package_speccommit 58ad0cfd8a9547ce0f4051f258eefef3078e2041
-%global usver 2.22.20
-%global xsver 6
+%global package_speccommit fe69e0c0c82b712ad9a6390ce828c80e5ab03bce
+%global usver 2.25.11
+%global xsver 2
 %global xsrel %{xsver}%{?xscount}%{?xshash}
-%global package_srccommit 2.22.20
+%global package_srccommit 2.25.11
 %define vendor_name Intel
 %define vendor_label intel
 %define driver_name i40e
@@ -20,13 +20,11 @@
 
 Summary: %{vendor_name} %{driver_name} device drivers
 Name: %{vendor_label}-%{driver_name}
-Version: 2.22.20
+Version: 2.25.11
 Release: %{?xsrel}%{?dist}
 License: GPL
-Source0: intel-i40e-2.22.20.tar.gz
-Source1: 10-disable-fw-lldp.rules
-Patch0: disable-fw-lldp-by-default.patch
-Patch1: fix-memory-leak-and-other-bugs.patch
+Source0: intel-i40e-2.25.11.tar.gz
+Patch0: build-fix.patch
 
 BuildRequires: kernel-devel >= 4.19.19-8.0.29
 %{?_cov_buildrequires}
@@ -56,9 +54,6 @@ cd ..
 # mark modules executable so that strip-to-file can strip them
 find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chmod u+x
 
-install -d %{buildroot}%{_sysconfdir}/udev/rules.d
-install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/udev/rules.d/
-
 %{?_cov_install}
 
 %post
@@ -74,11 +69,13 @@ install -m 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/udev/rules.d/
 
 %files
 /lib/modules/%{kernel_version}/*/*.ko
-%{_sysconfdir}/udev/rules.d/*
 
 %{?_cov_results_package}
 
 %changelog
+* Tue Oct 22 2024 Stephen Cheng <stephen.cheng@cloud.com> - 2.25.11-2
+- CP-51381 (CA-386057): Update to 2.25.11 to resolve performance issue
+
 * Tue Feb 27 2024 Ross Lagerwall <ross.lagerwall@citrix.com> - 2.22.20-6
 - CA-386057: Enable legacy-rx by default to resolve performance issue
 - Note: 2.22.20-5 is for Yangtze
