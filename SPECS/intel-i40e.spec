@@ -1,6 +1,6 @@
-%global package_speccommit fe69e0c0c82b712ad9a6390ce828c80e5ab03bce
+%global package_speccommit d1fffc37a0bdc730f272770f4f93ff71ef784f1f
 %global usver 2.25.11
-%global xsver 2
+%global xsver 4
 %global xsrel %{xsver}%{?xscount}%{?xshash}
 %global package_srccommit 2.25.11
 %define vendor_name Intel
@@ -34,6 +34,7 @@ Release: %{?xsrel}%{?dist}
 License: GPL
 Source0: intel-i40e-2.25.11.tar.gz
 Patch0: build-fix.patch
+Patch1: Fix-PTP-work-queue-corruption-issue.patch
 
 BuildRequires: gcc
 BuildRequires: kernel-devel >= 4.19.19-8.0.29
@@ -83,6 +84,12 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %{?_cov_results_package}
 
 %changelog
+* Tue Jan 13 2026 Stephen Cheng <stephen.cheng@citrix.com> - 2.25.11-4
+- CA-422638: Fix NULL pointer dereference during driver removal
+
+* Thu Jan 08 2026 Stephen Cheng <stephen.cheng@citrix.com> - 2.25.11-3
+- CA-422519 (XSI-2032): Fix race conditions to resolve crash issue
+
 * Tue Oct 22 2024 Stephen Cheng <stephen.cheng@cloud.com> - 2.25.11-2
 - CP-51381 (CA-386057): Update to 2.25.11 to resolve performance issue
 
@@ -93,10 +100,10 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 * Mon Aug 07 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-4
 - CP-41018: Use auxiliary module in kernel.
 
-* Tue Jul 03 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-3
+* Mon Jul 03 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-3
 - CP-43724: Re-tag for the build check.
 
-* Tue Jul 03 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-2
+* Mon Jul 03 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-2
 - CP-43724: Build driver disk for i40e driver
 
 * Tue Jun 13 2023 Stephen Cheng <stephen.cheng@citrix.com> - 2.22.20-1
