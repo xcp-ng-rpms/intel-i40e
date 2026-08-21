@@ -30,7 +30,10 @@ Name: %{vendor_label}-%{driver_name}
 Version: 2.25.11
 # END XCP-ng WARNING
 
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
+# Built against new kABI after cip rebase
+Requires: xcpng-kernel-kabi = 4.19.325-cip134+
+
 License: GPL
 Source0: intel-i40e-2.25.11.tar.gz
 Patch0: build-fix.patch
@@ -86,6 +89,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %{?_cov_results_package}
 
 %changelog
+* Mon Aug 31 2026 Quentin Casasnovas <quentin.casasnovas@vates.tech> - 2.25.11-4.1
+- Rebuild for kernel v4.19.325-cip134
+
 * Tue Jan 13 2026 Stephen Cheng <stephen.cheng@citrix.com> - 2.25.11-4
 - CA-422638: Fix NULL pointer dereference during driver removal
 
