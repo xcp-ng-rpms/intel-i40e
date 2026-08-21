@@ -36,6 +36,8 @@ Source0: intel-i40e-2.25.11.tar.gz
 Patch0: build-fix.patch
 Patch1: Fix-PTP-work-queue-corruption-issue.patch
 
+Patch1000: SOURCES/0001-intel-i40e-compat-handle-newer-kernels-with-dd_key_i.patch
+
 BuildRequires: gcc
 BuildRequires: kernel-devel >= 4.19.19-8.0.29
 %{?_cov_buildrequires}
