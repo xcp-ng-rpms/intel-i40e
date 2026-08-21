@@ -30,7 +30,10 @@ Name: %{vendor_label}-%{driver_name}
 Version: 2.25.11
 # END XCP-ng WARNING
 
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.1%{?dist}
+# Built against new kABI after cip rebase
+Requires: xcpng-kernel-kabi = 4.19.325-cip134+
+
 License: GPL
 Source0: intel-i40e-2.25.11.tar.gz
 Patch0: build-fix.patch
