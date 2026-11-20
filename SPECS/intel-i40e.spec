@@ -30,14 +30,16 @@ Name: %{vendor_label}-%{driver_name}
 Version: 2.25.11
 # END XCP-ng WARNING
 
-Release: %{?xsrel}%{?dist}
+Release: %{?xsrel}.0.kernelpreview.1%{?dist}
 License: GPL
 Source0: intel-i40e-2.25.11.tar.gz
 Patch0: build-fix.patch
 Patch1: Fix-PTP-work-queue-corruption-issue.patch
 
+Patch1000: intel-i40e-compat-handle-newer-kernels-with-dd_key_i.patch
+
 BuildRequires: gcc
-BuildRequires: kernel-devel >= 4.19.19-8.0.29
+BuildRequires: kernel-devel >= 4.19.325-cip137.8.0.46.16
 %{?_cov_buildrequires}
 Provides: vendor-driver
 Requires: kernel-uname-r = %{kernel_version}
@@ -84,6 +86,9 @@ find %{buildroot}/lib/modules/%{kernel_version} -name "*.ko" -type f | xargs chm
 %{?_cov_results_package}
 
 %changelog
+* Mon Nov 16 2026 Quentin Casasnovas <quentin.casasnovas@vates.tech> - 2.25.11-4.0.kernelpreview.1
+- Rebuild for kernel v4.19.325-cip137
+
 * Tue Jan 13 2026 Stephen Cheng <stephen.cheng@citrix.com> - 2.25.11-4
 - CA-422638: Fix NULL pointer dereference during driver removal
 
