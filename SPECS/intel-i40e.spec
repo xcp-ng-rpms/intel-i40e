@@ -30,7 +30,7 @@ Name: %{vendor_label}-%{driver_name}
 Version: 2.25.11
 # END XCP-ng WARNING
 
-Release: %{?xsrel}.0.kernelpreview.1%{?dist}
+Release: %{?xsrel}.0.kernelpreview.1.0.testv0.1%{?dist}
 License: GPL
 Source0: intel-i40e-2.25.11.tar.gz
 Patch0: build-fix.patch
